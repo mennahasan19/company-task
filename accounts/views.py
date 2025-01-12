@@ -3,6 +3,7 @@ from .serializers import (
     RegisterManagerSerializer,
     RegisterEmployeeSerializer,
     UserSerializer,
+    EmployeeSerializer
 )
 
 from rest_framework_simplejwt.views import TokenObtainPairView
@@ -84,3 +85,28 @@ def update_user(request):
         return Response(serializer.data)
     else:
         return Response(serializer.errors)
+
+
+@api_view(["DELETE"])
+@permission_classes([IsManager])
+def delete_employee(request, employee_id):
+    try:
+        employee = User.objects.get(id=employee_id)
+    except User.DoesNotExist():
+        return Response({"message:":"this user does not exist"})
+    employee.delete()
+    return Response({"message:":"user is deleted"})
+
+
+@api_view(["PUT"])
+@permission_classes([IsManager])
+def update_employee_status(request, employee_id):
+    data = request.data
+    try:
+        employee = User.objects.get(id=employee_id)
+    except User.DoesNotExist():
+        return Response({"message:":"this user does not exist"})
+    employee.workflow = data["status"]
+    employee.save()
+    serializer = EmployeeSerializer(employee)
+    return Response(serializer.data)

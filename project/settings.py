@@ -48,6 +48,8 @@ INSTALLED_APPS = [
     "drf_spectacular",
     # Internal Apps
     "accounts",
+    "company",
+    "tasks",
 ]
 
 MIDDLEWARE = [

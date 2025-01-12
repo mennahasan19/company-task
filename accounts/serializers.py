@@ -142,7 +142,8 @@ class EmployeeSerializer(serializers.ModelSerializer):
     days_employed = serializers.SerializerMethodField()
     class Meta:
         model = Employee
-        fields = ["id", "name", "address", "phone", "hired_on", "designation", "days_employed", "user"]
+        fields = ["id", "name", "address", "phone", "hired_on",
+                "designation", "days_employed", "user", "workflow"]
         
         
     def get_days_employed(self, obj):
